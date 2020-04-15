@@ -28,8 +28,41 @@ async function getCases() {
         }
         coviddata.push(details);
     }
-}
-
+};
+var stateJson = {
+    "Andaman and Nicobar Islands": "andamannicobarislands_district.json",
+    "Andhra Pradesh" : "andhrapradesh_district.json",
+    "Arunachal Pradesh": "arunachalpradesh_district.json",
+    "Assam": "assam_district.json",
+    "Bihar": "bihar_district.json",
+    "Chhattisgarh" : "chhattisgarh_district.json",
+    "Delhi": "delhi_district.json",
+    "Goa" : "goa_district.json",
+    "Gujarat": "gujarat_district.json",
+    "Haryana": "haryana_district.json",
+    "Himachal Pradesh": "himachalpradesh_district.json",
+    "Jammu and Kashmir": "jammukashmir_district.json",
+    "Jharkhand":"jharkhand_district.json",
+    "Karnataka": "karnataka_district.json",
+    "Kerala": "kerala_district.json",
+    "Ladakh" : "ladakh_district.json",
+    "Madhya Pradesh": "madhyapradesh_district.json",
+    "Maharashtra": "maharashtra_district.json",
+    "Manipur": "manipur_district.json",
+    "Meghalaya": "meghalaya_district.json",
+    "Mizoram": "mizoram_district.json",
+    "Nagaland": "nagaland_district.json",
+    "Odisha" : "odisha_district.json",
+    "Punjab": "punjab_district.json",
+    "Rajasthan": "rajasthan_district.json",
+    "Sikkim": "sikkim_district.json",
+    "Tamil Nadu" : "tamilnadu_district.json",
+    "Telangana" : "telangana_district.json",
+    "Tripura" : "tripura_district.json",
+    "Uttarakhand": "uttarakhand_district.json",
+    "Uttar Pradesh": "uttarpradesh_district.json",
+    "West Bengal": "westbengal_district.json"
+};
 getCases().then((response) => {
     // Initialize leaflet.js
     var L = require("leaflet");
@@ -38,7 +71,7 @@ getCases().then((response) => {
     var map = L.map("map", {
         scrollWheelZoom: true,
     });
-    map.dragging.disable();
+    // map.dragging.disable();s
     // Set the position and zoom level of the map
     map.setView([23, 82], 5);
 
@@ -83,34 +116,61 @@ getCases().then((response) => {
                 return coviddata[i]["color"];
             }
         }
-    }
+    };
     function getStateData(name) {
         for (i in coviddata) {
             if (name == coviddata[i]["state"]) {
                 return coviddata[i];
             }
         }
-    }
+    };
     function getFatData(name) {
         for (i in cnExpFat) {
             if (name == cnExpFat[i]["state"]) {
                 return cnExpFat[i]["expNum"];
             }
         }
-    }
+    };
     function onEachFeature(feature, layer) {
         layer.on({
             mouseover: highlightFeature,
             mouseout: resetHighlight,
             click: zoomToFeature,
         });
-    }
-    function zoomToFeature(e) {
+    };
+    function fetchJSON(url) {
+        return fetch(url)
+          .then(function(response) {
+            return response.json();
+          });
+    };
+    var stateLevel = false;
+    
+    async function zoomToFeature(e) {
         map.fitBounds(e.target.getBounds());
-    }
+        var clickedState = e.target.feature.properties.NAME_1;
+        var url = "/data/stateJsonData/"+stateJson[clickedState];
+        var clickedStateJson = await fetchJSON(url);
+        map.removeLayer(geojson);
+        stateLevel = true;
+        stateLevelJson = L.geoJson(clickedStateJson, {
+            style: style,
+            onEachFeature: onEachFeature,
+        }).addTo(map);
+
+    };
+    function checkState(){
+        var zoom = map.getZoom();
+        if(stateLevel===true && zoom <6){
+            map.addLayer(geojson);
+            map.removeLayer(stateLevelJson);
+        }
+    };
+    setInterval(checkState, 1000);
     function resetHighlight(e) {
         geojson.resetStyle(e.target);
-    }
+        
+    };
     function highlightFeature(e) {
         var layer = e.target;
         layer.setStyle({
@@ -138,8 +198,8 @@ getCases().then((response) => {
         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
             layer.bringToFront();
         }
-    }
-
+    };
+    
     var ctx = document.getElementById("myChart").getContext("2d");
     var myChart = new Chart(ctx, {
         type: "bar",
