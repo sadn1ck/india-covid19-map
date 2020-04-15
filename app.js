@@ -5,7 +5,7 @@ var Chart = require('chart.js')
 var map = L.map('map', {
   scrollWheelZoom: true
 });
-
+map.dragging.disable();
 // Set the position and zoom level of the map
 map.setView([23, 82], 5);
 
