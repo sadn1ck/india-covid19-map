@@ -1,31 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+    <head>
+        <title>Map</title>
+        <meta charset="utf-8" />
 
-<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Map</title>
-    <meta charset="utf-8">
+        <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" />
+        <link rel="stylesheet" href="style/style.css" />
+    </head>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css">
-    <link rel="stylesheet" href="style/style.css">
-</head>
-
-<body>
-    <div class="container">
-        <div id="map"></div>
-        <div class="right">
-            <div id="stat">
-                Hover over a state to display data
+    <body>
+        <script type="text/javascript" src="data/india.json"></script>
+        <!--     <script type="text/javascript" src="data/coviddata.json"></script> -->
+        <script type="text/javascript" src="data/cnExpFat.json"></script>
+        <div class="container">
+            <div id="map"></div>
+            <div class="right">
+                <div id="stat">
+                    Hover over a state to display data
+                </div>
+                <canvas id="myChart" width="300" height="150"></canvas>
             </div>
-            <canvas id="myChart" width="300" height="150"></canvas>
         </div>
-    </div>
-    <script type="text/javascript" src="data/india.json"></script>
-    <script type="text/javascript" src="data/coviddata.json"></script>
-    <script type="text/javascript" src="data/cnExpFat.json"></script>
-    <script src="bundle.js"></script>
-</body>
-
+        <script src="bundle.js"></script>
+    </body>
 </html>
