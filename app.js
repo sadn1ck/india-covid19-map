@@ -1,5 +1,5 @@
 //Fetching recent data
-
+//
 const api_url = "https://api.rootnet.in/covid19-in/stats/latest";
 var coviddata = [];
 async function getCases() {
