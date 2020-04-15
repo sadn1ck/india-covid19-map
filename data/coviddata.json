@@ -1,0 +1,233 @@
+var coviddata = [
+    {
+        "state": "Andhra Pradesh",
+        "conf": 483,
+        "cured": 16,
+        "deaths": 9,
+        "color": "#fdcc8a"
+    },
+    {
+        "state": "Andaman and Nicobar Islands",
+        "conf": 11,
+        "cured": 10,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Arunachal Pradesh",
+        "conf": 1,
+        "cured": 0,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Assam",
+        "conf": 32,
+        "cured": 0,
+        "deaths": 1,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Bihar",
+        "conf": 66,
+        "cured": 29,
+        "deaths": 1,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Chandigarh",
+        "conf": 21,
+        "cured": 7,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Chhattisgarh",
+        "conf": 33,
+        "cured": 13,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Delhi",
+        "conf": 1561,
+        "cured": 30,
+        "deaths": 30,
+        "color": "#e34a33"
+    },
+    {
+        "state": "Goa",
+        "conf": 7,
+        "cured": 5,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Gujarat",
+        "conf": 650,
+        "cured": 59,
+        "deaths": 28,
+        "color": "#fc8d59"
+    },
+    {
+        "state": "Haryana",
+        "conf": 199,
+        "cured": 34,
+        "deaths": 3,
+        "color": "#fdcc8a"
+    },
+    {
+        "state": "Himachal Pradesh",
+        "conf": 33,
+        "cured": 13,
+        "deaths": 1,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Jammu and Kashmir",
+        "conf": 278,
+        "cured": 30,
+        "deaths": 4,
+        "color": "#fdcc8a"
+    },
+    {
+        "state": "Jharkhand",
+        "conf": 27,
+        "cured": 0,
+        "deaths": 2,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Karnataka",
+        "conf": 260,
+        "cured": 71,
+        "deaths": 10,
+        "color": "#fdcc8a"
+    },
+    {
+        "state": "Kerala",
+        "conf": 387,
+        "cured": 211,
+        "deaths": 3,
+        "color": "#fdcc8a"
+    },
+    {
+        "state": "Ladakh",
+        "conf": 17,
+        "cured": 10,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Madhya Pradesh",
+        "conf": 730,
+        "cured": 51,
+        "deaths": 50,
+        "color": "#fc8d59"
+    },
+    {
+        "state": "Maharashtra",
+        "conf": 2687,
+        "cured": 259,
+        "deaths": 178,
+        "color": "#b30000"
+    },
+    {
+        "state": "Manipur",
+        "conf": 2,
+        "cured": 1,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Meghalaya",
+        "conf": 1,
+        "cured": 0,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Mizoram",
+        "conf": 1,
+        "cured": 0,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Nagaland#",
+        "conf": 0,
+        "cured": 0,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Odisha",
+        "conf": 60,
+        "cured": 18,
+        "deaths": 1,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Puducherry",
+        "conf": 7,
+        "cured": 1,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Punjab",
+        "conf": 176,
+        "cured": 14,
+        "deaths": 12,
+        "color": "#fdcc8a"
+    },
+    {
+        "state": "Rajasthan",
+        "conf": 969,
+        "cured": 147,
+        "deaths": 3,
+        "color": "#fc8d59"
+    },
+    {
+        "state": "Tamil Nadu",
+        "conf": 1204,
+        "cured": 81,
+        "deaths": 12,
+        "color": "#e34a33"
+    },
+    {
+        "state": "Telengana",
+        "conf": 624,
+        "cured": 100,
+        "deaths": 17,
+        "color": "#fc8d59"
+    },
+    {
+        "state": "Tripura",
+        "conf": 2,
+        "cured": 0,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Uttarakhand",
+        "conf": 37,
+        "cured": 9,
+        "deaths": 0,
+        "color": "#fef0d9"
+    },
+    {
+        "state": "Uttar Pradesh",
+        "conf": 660,
+        "cured": 50,
+        "deaths": 5,
+        "color": "#fc8d59"
+    },
+    {
+        "state": "West Bengal",
+        "conf": 213,
+        "cured": 37,
+        "deaths": 7,
+        "color": "#fdcc8a"
+    }
+]
