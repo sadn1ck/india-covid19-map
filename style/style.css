@@ -1,5 +1,26 @@
-#map
-{
+body{
+    background-color: #DDDDDD;
+}
+.container{
+    display: flex;
+}
+.right{
+    
+    width: 40%;
+    height: 700px;
+}
+#stat{
+    padding-top: 50px;
+    font-size: 20px;
+    text-align: center;
     width: auto;
-    height: 500px;
+    height: 250px;
+    border-radius: 25px;
+}
+#map{
+    width: 60%;
+    height: 700px;
+}
+#chart{
+    padding: 40px 40px 40px 40px;
 }

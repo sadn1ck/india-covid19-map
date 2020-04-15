@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Leaflet Example 1: Base Layers</title>
+    <title>Map</title>
     <meta charset="utf-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,17 @@
 </head>
 
 <body>
-    <div id="map"></div>
+    <div class="container">
+        <div id="map"></div>
+        <div class="right">
+            <div id="stat">
+                Hover over a state to display data
+            </div>
+            <div id="chart">
+                chart
+            </div>
+        </div>
+    </div>
     <script type="text/javascript" src="data/india.json"></script>
     <script type="text/javascript" src="data/coviddata.json"></script>
     <script src="bundle.js"></script>
