@@ -18,9 +18,10 @@ body{
     border-radius: 25px;
 }
 #map{
-    width: 60%;
+    width: 55%;
     height: 700px;
 }
-#chart{
-    padding: 40px 40px 40px 40px;
+#myChart{
+    padding: 25px 25px 25px 25px;
+    
 }

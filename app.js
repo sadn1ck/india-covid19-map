@@ -1,6 +1,6 @@
 // Initialize leaflet.js
 var L = require('leaflet');
-
+var Chart = require('chart.js')
 // Initialize the map
 var map = L.map('map', {
   scrollWheelZoom: true
@@ -30,7 +30,7 @@ function style(feature) {
     fillOpacity: 0.7,
     fillColor: getColor(feature.properties.NAME_1) || '#fef0d9'
   };
-}
+};
 var baseLayers = {
   "OSM Mapnik": osm_mapnik,
 };
@@ -49,11 +49,18 @@ function getColor(name) {
       return coviddata[i]['color']
     }
   }
-}
+};
 function getStateData(name){
   for (i in coviddata) {
     if (name == coviddata[i]['state']) {
       return coviddata[i];
+    }
+  }
+};
+function getFatData(name){
+  for (i in cnExpFat) {
+    if (name == cnExpFat[i]['state']) {
+      return cnExpFat[i]['expNum'];
     }
   }
 }
@@ -63,13 +70,13 @@ function onEachFeature(feature, layer) {
       mouseout: resetHighlight,
       click: zoomToFeature
   });
-}
+};
 function zoomToFeature(e) {
   map.fitBounds(e.target.getBounds());
-}
+};
 function resetHighlight(e) {
   geojson.resetStyle(e.target);
-}
+};
 function highlightFeature(e) {
   var layer = e.target;
   layer.setStyle({
@@ -78,11 +85,38 @@ function highlightFeature(e) {
       dashArray: '',
       fillOpacity: 0.7
   });
-  var stateData = getStateData(layer.feature.properties.NAME_1);
-  document.getElementById("stat").innerHTML = "<h3>"+stateData['state']+"</h3><br>Confirmed: "+stateData['conf']+"<br>Deaths: "+stateData['deaths']+"<br>Recovered: "+stateData['cured']+"<br>";
+    var stateData = getStateData(layer.feature.properties.NAME_1);
+    var stateName = stateData['state'];
+    var fatalityData = getFatData(stateName);
+    myChart.data.datasets[0]['data'] = fatalityData;
+    myChart.update();
+    document.getElementById("stat").innerHTML = "<h3>"+stateName+"</h3><br>Confirmed: "+stateData['conf']+"<br>Deaths: "+stateData['deaths']+"<br>Recovered: "+stateData['cured']+"<br>";
 
 
   if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
       layer.bringToFront();
   }
-}
+};
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['0-9','10-19','20-29','30-39','40-49','50-59','60-69','70-79','80-89','90+'],
+        datasets: [{
+            label: 'Expected Number of Deaths at 100% infection',
+            backgroundColor: ['red','red','red','red','red','red','red','red','red'],
+            data: cnExpFat[1].expNum,
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
