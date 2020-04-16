@@ -195,10 +195,17 @@ getCases().then((response) => {
     };
     function getStateData(name) {
         for (i in coviddata) {
-            if (name == coviddata[i]["state"]) {
+            if (name === coviddata[i]["state"]) {
                 return coviddata[i];
             }
         }
+        return {
+            state: 'No data',
+            conf: 0,
+            cured: 0,
+            deaths: 0,
+            color: '#ffffff',
+        };
     };
     var stateLevel = false;
 
@@ -237,7 +244,7 @@ getCases().then((response) => {
             fillOpacity: 0.7,
         });
         // checks if currently statelevel, if not does for state
-        if(!stateLevel){
+        if (!stateLevel) {
             var stateData = getStateData(layer.feature.properties.NAME_1);
             var stateName = stateData["state"];
             var fatalityData = getFatData(stateName);
@@ -245,30 +252,36 @@ getCases().then((response) => {
             myChart.data.datasets[0]["data"] = fatalityData;
             myChart.update();
             document.getElementById("stat").innerHTML =
-            "<h3>" +
-            stateName +
-            "</h3><br>Confirmed: " +
-            stateData["conf"] +
-            "<br>Deaths: " +
-            stateData["deaths"] +
-            "<br>Recovered: " +
-            stateData["cured"] +
-            "<br>";
+                "<h3>" +
+                stateName +
+                "</h3><br>Confirmed: " +
+                stateData["conf"] +
+                "<br>Deaths: " +
+                stateData["deaths"] +
+                "<br>Recovered: " +
+                stateData["cured"] +
+                "<br>";
 
-        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-            layer.bringToFront();
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                layer.bringToFront();
             }
         }
         //for district, if statelevel
-        if(stateLevel){
+        if (stateLevel) {
             var distName = e.target.feature.properties.district;
             var distD = getDistData(distName);
             // console.log(distD['conf']);
-            var d =  distD['conf'];
+            var d
+
+            if (distD && typeof distD.conf === 'number') {
+                d = distD.conf
+            } else {
+                d = 0
+            }
             document.getElementById("stat").innerHTML =
-            "<h3>" +
-            distName +
-            "</h3><br>Confirmed: " + d;
+                "<h3>" +
+                distName +
+                "</h3><br>Confirmed: " + d;
         }
     };
 
@@ -280,7 +293,7 @@ getCases().then((response) => {
             color: "white",
             dashArray: "2",
             fillOpacity: 0.7,
-            fillColor:  getColorDist(feature.properties.district) || "#424242",
+            fillColor: getColorDist(feature.properties.district) || "#424242",
         };
     };
     function getColorDist(dname) {
