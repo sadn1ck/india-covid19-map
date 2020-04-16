@@ -54,11 +54,7 @@ async function getCases() {
         for (i = 0; i < disNames.length; i++) {
             disDetails = {};
             disDetails["districtName"] = disNames[i];
-            disDetails["conf"] = Number(
-                disData[stateNames[ind]]["districtData"][disNames[i]][
-                    "confirmed"
-                ]
-            );
+            disDetails["conf"] = Number(disData[stateNames[ind]]["districtData"][disNames[i]]["confirmed"]);
             if (disDetails["conf"] < 50) {
                 disDetails["color"] = "#fff7ec";
             } else if (disDetails["conf"] >= 50 && disDetails["conf"] < 100) {
@@ -84,38 +80,39 @@ async function getCases() {
             covidDisData[stateNames[ind]].push(disDetails);
         }
     }
-}
+};
+// console.log(covidDisData);
 var stateJson = {
     "Andaman and Nicobar Islands": "andamannicobarislands_district.json",
     "Andhra Pradesh": "andhrapradesh_district.json",
     "Arunachal Pradesh": "arunachalpradesh_district.json",
-    Assam: "assam_district.json",
-    Bihar: "bihar_district.json",
-    Chhattisgarh: "chhattisgarh_district.json",
-    Delhi: "delhi_district.json",
-    Goa: "goa_district.json",
-    Gujarat: "gujarat_district.json",
-    Haryana: "haryana_district.json",
+    "Assam": "assam_district.json",
+    "Bihar": "bihar_district.json",
+    "Chhattisgarh": "chhattisgarh_district.json",
+    "Delhi": "delhi_district.json",
+    "Goa": "goa_district.json",
+    "Gujarat": "gujarat_district.json",
+    "Haryana": "haryana_district.json",
     "Himachal Pradesh": "himachalpradesh_district.json",
     "Jammu and Kashmir": "jammukashmir_district.json",
-    Jharkhand: "jharkhand_district.json",
-    Karnataka: "karnataka_district.json",
-    Kerala: "kerala_district.json",
-    Ladakh: "ladakh_district.json",
+    "Jharkhand": "jharkhand_district.json",
+    "Karnataka": "karnataka_district.json",
+    "Kerala": "kerala_district.json",
+    "Ladakh": "ladakh_district.json",
     "Madhya Pradesh": "madhyapradesh_district.json",
-    Maharashtra: "maharashtra_district.json",
-    Manipur: "manipur_district.json",
-    Meghalaya: "meghalaya_district.json",
-    Mizoram: "mizoram_district.json",
-    Nagaland: "nagaland_district.json",
-    Odisha: "odisha_district.json",
-    Punjab: "punjab_district.json",
-    Rajasthan: "rajasthan_district.json",
-    Sikkim: "sikkim_district.json",
+    "Maharashtra": "maharashtra_district.json",
+    "Manipur": "manipur_district.json",
+    "Meghalaya": "meghalaya_district.json",
+    "Mizoram": "mizoram_district.json",
+    "Nagaland": "nagaland_district.json",
+    "Odisha": "odisha_district.json",
+    "Punjab": "punjab_district.json",
+    "Rajasthan": "rajasthan_district.json",
+    "Sikkim": "sikkim_district.json",
     "Tamil Nadu": "tamilnadu_district.json",
-    Telangana: "telangana_district.json",
-    Tripura: "tripura_district.json",
-    Uttarakhand: "uttarakhand_district.json",
+    "Telangana": "telangana_district.json",
+    "Tripura": "tripura_district.json",
+    "Uttarakhand": "uttarakhand_district.json",
     "Uttar Pradesh": "uttarpradesh_district.json",
     "West Bengal": "westbengal_district.json",
 };
@@ -127,9 +124,9 @@ getCases().then((response) => {
     var map = L.map("map", {
         scrollWheelZoom: true,
     });
-    // map.dragging.disable();s
+    // map.dragging.disable();
     // Set the position and zoom level of the map
-    map.setView([23, 90], 4.5);
+    map.setView([23, 92], 4.5);
 
     /*	Variety of base layers */
     var osm_mapnik = L.tileLayer("", {
@@ -138,7 +135,9 @@ getCases().then((response) => {
         attribution:
             '&copy; OSM Mapnik <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
-
+    /* 
+    INDIA ENTIRE COUNTRY & STATES LOADING AND STUFF 
+    */
     geojson = L.geoJson(india, {
         style: style,
         onEachFeature: onEachFeature,
@@ -153,7 +152,7 @@ getCases().then((response) => {
             fillOpacity: 0.7,
             fillColor: getColor(feature.properties.NAME_1) || "#b39c68",
         };
-    }
+    };
     var baseLayers = {
         "OSM Mapnik": osm_mapnik,
     };
@@ -165,40 +164,42 @@ getCases().then((response) => {
     // Add geoJSON to the map
 
     L.control.layers(baseLayers, overLayers).addTo(map);
-
+    /* 
+    INDIA ENTIRE COUNTRY & STATES LOADING AND STUFF 
+    */
     function getColor(name) {
         for (i in coviddata) {
             if (name == coviddata[i]["state"]) {
                 return coviddata[i]["color"];
             }
         }
-    }
-    function getStateData(name) {
-        for (i in coviddata) {
-            if (name == coviddata[i]["state"]) {
-                return coviddata[i];
-            }
-        }
-    }
+    };
     function getFatData(name) {
         for (i in cnExpFat) {
             if (name == cnExpFat[i]["state"]) {
                 return cnExpFat[i]["expNum"];
             }
         }
-    }
+    };
     function onEachFeature(feature, layer) {
         layer.on({
             mouseover: highlightFeature,
             mouseout: resetHighlight,
             click: zoomToFeature,
         });
-    }
+    };
     function fetchJSON(url) {
         return fetch(url).then(function (response) {
             return response.json();
         });
-    }
+    };
+    function getStateData(name) {
+        for (i in coviddata) {
+            if (name == coviddata[i]["state"]) {
+                return coviddata[i];
+            }
+        }
+    };
     var stateLevel = false;
 
     async function zoomToFeature(e) {
@@ -209,37 +210,41 @@ getCases().then((response) => {
         map.removeLayer(geojson);
         stateLevel = true;
         stateLevelJson = L.geoJson(clickedStateJson, {
-            style: style,
+            style: styleState,
             onEachFeature: onEachFeature,
         }).addTo(map);
-    }
+    };
     function checkState() {
         var zoom = map.getZoom();
         if (stateLevel === true && zoom < 6) {
             map.addLayer(geojson);
             map.removeLayer(stateLevelJson);
-            map.setView([23, 90], 4.5);
+            map.setView([23, 92], 4.5);
+            resetHighlight(map);
         }
-    }
+    };
     setInterval(checkState, 1000);
     function resetHighlight(e) {
         geojson.resetStyle(e.target);
-    }
+    };
     function highlightFeature(e) {
         var layer = e.target;
+        // console.log(e);
         layer.setStyle({
             weight: 5,
             color: "#666",
             dashArray: "",
             fillOpacity: 0.7,
         });
-        var stateData = getStateData(layer.feature.properties.NAME_1);
-        var stateName = stateData["state"];
-        var fatalityData = getFatData(stateName);
+        // checks if currently statelevel, if not does for state
+        if(!stateLevel){
+            var stateData = getStateData(layer.feature.properties.NAME_1);
+            var stateName = stateData["state"];
+            var fatalityData = getFatData(stateName);
 
-        myChart.data.datasets[0]["data"] = fatalityData;
-        myChart.update();
-        document.getElementById("stat").innerHTML =
+            myChart.data.datasets[0]["data"] = fatalityData;
+            myChart.update();
+            document.getElementById("stat").innerHTML =
             "<h3>" +
             stateName +
             "</h3><br>Confirmed: " +
@@ -252,8 +257,61 @@ getCases().then((response) => {
 
         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
             layer.bringToFront();
+            }
         }
-    }
+        //for district, if statelevel
+        if(stateLevel){
+            var distName = e.target.feature.properties.district;
+            var distD = getDistData(distName);
+            // console.log(distD['conf']);
+            var d =  distD['conf'];
+            document.getElementById("stat").innerHTML =
+            "<h3>" +
+            distName +
+            "</h3><br>Confirmed: " + d;
+        }
+    };
+
+    // for individual states and districts
+    function styleState(feature) {
+        return {
+            weight: 2,
+            opacity: 0.7,
+            color: "white",
+            dashArray: "2",
+            fillOpacity: 0.7,
+            fillColor:  getColorDist(feature.properties.district) || "#424242",
+        };
+    };
+    function getColorDist(dname) {
+        for(i in covidDisData){
+            for(j in covidDisData[i]){
+                // console.log(covidDisData[i][j]['districtName']);
+                if(dname == covidDisData[i][j]['districtName']){
+                    return covidDisData[i][j]['color']
+                }
+            }
+        }
+    };
+    function getDistData(dname) {
+        for(i in covidDisData){
+            for(j in covidDisData[i]){
+                // console.log(covidDisData[i][j]);
+                if(dname == covidDisData[i][j]['districtName']){
+                    return covidDisData[i][j];
+                }
+            }
+        }
+    };
+    // for individual states and districts
+
+
+
+
+
+
+
+
 
     var ctx = document.getElementById("myChart").getContext("2d");
     var myChart = new Chart(ctx, {
@@ -294,7 +352,7 @@ getCases().then((response) => {
             legend: {
                 display: true,
                 labels: {
-                    fontSize: 40,
+                    fontSize: 25,
                 },
             },
             responsive: true,
@@ -303,14 +361,14 @@ getCases().then((response) => {
                 xAxes: [
                     {
                         ticks: {
-                            fontSize: 40,
+                            fontSize: 25,
                         },
                     },
                 ],
                 yAxes: [
                     {
                         ticks: {
-                            fontSize: 40,
+                            fontSize: 25,
                             beginAtZero: true,
                         },
                     },
