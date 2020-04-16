@@ -227,12 +227,18 @@ getCases().then((response) => {
             map.addLayer(geojson);
             map.removeLayer(stateLevelJson);
             map.setView([23, 92], 4.5);
+            stateLevel = false;
             resetHighlight(map);
         }
     };
     setInterval(checkState, 1000);
     function resetHighlight(e) {
-        geojson.resetStyle(e.target);
+        if(!stateLevel){
+            geojson.resetStyle(e.target);
+        }
+        if(stateLevel){
+            stateLevelJson.resetStyle(e.target);
+        }
     };
     function highlightFeature(e) {
         var layer = e.target;
@@ -301,7 +307,7 @@ getCases().then((response) => {
             for(j in covidDisData[i]){
                 // console.log(covidDisData[i][j]['districtName']);
                 if(dname == covidDisData[i][j]['districtName']){
-                    return covidDisData[i][j]['color']
+                    return covidDisData[i][j]['color'];
                 }
             }
         }
