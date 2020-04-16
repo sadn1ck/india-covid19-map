@@ -73,7 +73,7 @@ getCases().then((response) => {
     });
     // map.dragging.disable();s
     // Set the position and zoom level of the map
-    map.setView([23, 82], 5);
+    map.setView([23, 90], 4.5);
 
     /*	Variety of base layers */
     var osm_mapnik = L.tileLayer("", {
@@ -95,7 +95,7 @@ getCases().then((response) => {
             color: "white",
             dashArray: "2",
             fillOpacity: 0.7,
-            fillColor: getColor(feature.properties.NAME_1) || "#fef0d9",
+            fillColor: getColor(feature.properties.NAME_1) || "#b39c68",
         };
     }
     var baseLayers = {
@@ -164,6 +164,7 @@ getCases().then((response) => {
         if(stateLevel===true && zoom <6){
             map.addLayer(geojson);
             map.removeLayer(stateLevelJson);
+            map.setView([23, 90], 4.5);
         }
     };
     setInterval(checkState, 1000);
@@ -236,10 +237,26 @@ getCases().then((response) => {
             ],
         },
         options: {
+            legend: {
+                display: true,
+                labels: {
+                    fontSize: 40
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
+                xAxes: [
+                    {
+                        ticks : {
+                            fontSize: 40
+                        }
+                    }
+                ],
                 yAxes: [
                     {
                         ticks: {
+                            fontSize: 40,
                             beginAtZero: true,
                         },
                     },

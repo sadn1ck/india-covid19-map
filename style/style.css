@@ -1,27 +1,32 @@
-body{
-    background-color: #DDDDDD;
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
 }
-.container{
-    display: flex;
-}
-.right{
-    
-    width: 40%;
+
+#map{
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
     height: 700px;
 }
 #stat{
-    padding-top: 50px;
-    font-size: 20px;
+    position: absolute;
+    bottom: 10%;
+    left: 2%;
     text-align: center;
-    width: auto;
-    height: 250px;
-    border-radius: 25px;
+    width: 200px;
+    height: 200px;
+    padding-top: 50px;
+    background-color: antiquewhite;
+    border-radius: 20px;
 }
-#map{
-    width: 55%;
-    height: 700px;
-}
-#myChart{
-    padding: 25px 25px 25px 25px;
-    
+canvas{
+    position: absolute;
+    bottom: 5%;
+    font-size: 10px;
+    right: 2%;
+    width: 500px !important;
+    height: 300px !important;
+    font-size: 14px !important;
 }
