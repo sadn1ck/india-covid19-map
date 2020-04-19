@@ -2,11 +2,29 @@
 //
 const api_url = "https://api.rootnet.in/covid19-in/stats/latest";
 var coviddata = [];
-
 const dis_url = "https://api.covid19india.org/state_district_wise.json";
 var covidDisData = {};
+const ind_url = "https://api.covid19api.com/total/country/india"
+var indData = {};
+
+var ChartFont = 15;
 
 async function getCases() {
+    // india total api ..............................
+    const resp = await fetch(ind_url);
+    const curr = await resp.json();
+    indData['conf'] = curr[curr.length - 1]['Confirmed'];
+    indData['death'] = curr[curr.length - 1]['Deaths'];
+    indData['rec'] = curr[curr.length - 1]['Recovered'];
+    document.getElementById("stat").innerHTML =
+        "<h3> India Total" +
+        "</h3><br>Confirmed: " +
+        indData['conf'] +
+        "<br>Deaths: " +
+        indData['death'] +
+        "<br>Recovered: " +
+        indData['rec'] +
+        "<br>";
     //STATE DATA FETCH
     const response = await fetch(api_url);
     const data = await response.json();
@@ -233,12 +251,21 @@ getCases().then((response) => {
     };
     setInterval(checkState, 1000);
     function resetHighlight(e) {
-        if(!stateLevel){
+        if (!stateLevel) {
             geojson.resetStyle(e.target);
         }
-        if(stateLevel){
+        if (stateLevel) {
             stateLevelJson.resetStyle(e.target);
         }
+        document.getElementById("stat").innerHTML =
+            "<h3> India Total" +
+            "</h3><br>Confirmed: " +
+            indData['conf'] +
+            "<br>Deaths: " +
+            indData['death'] +
+            "<br>Recovered: " +
+            indData['rec'] +
+            "<br>";
     };
     function highlightFeature(e) {
         var layer = e.target;
@@ -303,20 +330,20 @@ getCases().then((response) => {
         };
     };
     function getColorDist(dname) {
-        for(i in covidDisData){
-            for(j in covidDisData[i]){
+        for (i in covidDisData) {
+            for (j in covidDisData[i]) {
                 // console.log(covidDisData[i][j]['districtName']);
-                if(dname == covidDisData[i][j]['districtName']){
+                if (dname == covidDisData[i][j]['districtName']) {
                     return covidDisData[i][j]['color'];
                 }
             }
         }
     };
     function getDistData(dname) {
-        for(i in covidDisData){
-            for(j in covidDisData[i]){
+        for (i in covidDisData) {
+            for (j in covidDisData[i]) {
                 // console.log(covidDisData[i][j]);
-                if(dname == covidDisData[i][j]['districtName']){
+                if (dname == covidDisData[i][j]['districtName']) {
                     return covidDisData[i][j];
                 }
             }
@@ -350,18 +377,8 @@ getCases().then((response) => {
             ],
             datasets: [
                 {
-                    label: "Expected Number of Deaths at 100% infection",
-                    backgroundColor: [
-                        "red",
-                        "red",
-                        "red",
-                        "red",
-                        "red",
-                        "red",
-                        "red",
-                        "red",
-                        "red",
-                    ],
+                    label: "Worse Case Fatality",
+                    backgroundColor: 'red',
                     data: cnExpFat[1].expNum,
                     borderWidth: 1,
                 },
@@ -371,7 +388,7 @@ getCases().then((response) => {
             legend: {
                 display: true,
                 labels: {
-                    fontSize: 25,
+                    fontSize: ChartFont,
                 },
             },
             responsive: true,
@@ -380,14 +397,14 @@ getCases().then((response) => {
                 xAxes: [
                     {
                         ticks: {
-                            fontSize: 25,
+                            fontSize: ChartFont,
                         },
                     },
                 ],
                 yAxes: [
                     {
                         ticks: {
-                            fontSize: 25,
+                            fontSize: ChartFont,
                             beginAtZero: true,
                         },
                     },

@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Map</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" />
-        <link rel="stylesheet" href="style/style.css" />
-    </head>
 
-    <body>
-        <script type="text/javascript" src="data/india.json"></script>
-        <!--     <script type="text/javascript" src="data/coviddata.json"></script> -->
-        <script type="text/javascript" src="data/cnExpFat.json"></script>
-        <div class="container">
-            <div id="map"></div>
-                <div id="stat">
-                    Hover over a state to display data
-                </div>
-                <canvas id="myChart"></canvas>
+<head>
+    <title>Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="style/style.css" />
+</head>
+
+<body>
+    <script type="text/javascript" src="data/india.json"></script>
+    <!--     <script type="text/javascript" src="data/coviddata.json"></script> -->
+    <script type="text/javascript" src="data/cnExpFat.json"></script>
+    <div class="container">
+        <div id="map"></div>
+        <div id="stat">
+            Hover over a state to display data
         </div>
-        <script src="bundle.js"></script>
-    </body>
+        <div id="chart"><canvas id="myChart"></canvas></div>
+    </div>
+    <script src="bundle.js"></script>
+</body>
+
 </html>
