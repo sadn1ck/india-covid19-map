@@ -4,18 +4,18 @@ const api_url = "https://api.rootnet.in/covid19-in/stats/latest";
 var coviddata = [];
 const dis_url = "https://api.covid19india.org/state_district_wise.json";
 var covidDisData = {};
-const ind_url = "https://api.covid19api.com/total/country/india"
 var indData = {};
 
 var ChartFont = 15;
 
 async function getCases() {
     // india total api ..............................
-    const resp = await fetch(ind_url);
-    const curr = await resp.json();
-    indData['conf'] = curr[curr.length - 1]['Confirmed'];
-    indData['death'] = curr[curr.length - 1]['Deaths'];
-    indData['rec'] = curr[curr.length - 1]['Recovered'];
+    const response = await fetch(api_url);
+    const data = await response.json();
+    console.log(data.data.summary);
+    indData['conf'] = data.data.summary.total;
+    indData['death'] = data.data.summary.deaths;
+    indData['rec'] = data.data.summary.discharged;
     document.getElementById("stat").innerHTML =
         "<h3> India Total" +
         "</h3><br>Confirmed: " +
@@ -26,10 +26,8 @@ async function getCases() {
         indData['rec'] +
         "<br>";
     //STATE DATA FETCH
-    const response = await fetch(api_url);
-    const data = await response.json();
     // console.log(data.data.regional);
-    for (ind = 0; ind <= 32; ind++) {
+    for (ind = 0; ind < 32; ind++) {
         var details = {};
         details["state"] = data.data.regional[ind].loc;
         details["conf"] =
@@ -144,7 +142,7 @@ getCases().then((response) => {
     });
     // map.dragging.disable();
     // Set the position and zoom level of the map
-    map.setView([23, 92], 4.5);
+    map.setView([23, 92], 4);
 
     /*	Variety of base layers */
     var osm_mapnik = L.tileLayer("", {
@@ -244,7 +242,7 @@ getCases().then((response) => {
         if (stateLevel === true && zoom < 6) {
             map.addLayer(geojson);
             map.removeLayer(stateLevelJson);
-            map.setView([23, 92], 4.5);
+            map.setView([23, 92], 4);
             stateLevel = false;
             resetHighlight(map);
         }
@@ -304,12 +302,11 @@ getCases().then((response) => {
             var distName = e.target.feature.properties.district;
             var distD = getDistData(distName);
             // console.log(distD['conf']);
-            var d
-
+            var d;
             if (distD && typeof distD.conf === 'number') {
-                d = distD.conf
+                d = distD.conf;
             } else {
-                d = 0
+                d = 0;
             }
             document.getElementById("stat").innerHTML =
                 "<h3>" +
@@ -317,7 +314,6 @@ getCases().then((response) => {
                 "</h3><br>Confirmed: " + d;
         }
     };
-
     // for individual states and districts
     function styleState(feature) {
         return {
@@ -351,14 +347,7 @@ getCases().then((response) => {
     };
     // for individual states and districts
 
-
-
-
-
-
-
-
-
+// Chart below
     var ctx = document.getElementById("myChart").getContext("2d");
     var myChart = new Chart(ctx, {
         type: "bar",
