@@ -12,7 +12,7 @@ async function getCases() {
     // india total api ..............................
     const response = await fetch(api_url);
     const data = await response.json();
-    console.log(data.data.summary);
+    // console.log(data.data.summary);
     indData['conf'] = data.data.summary.total;
     indData['death'] = data.data.summary.deaths;
     indData['rec'] = data.data.summary.discharged;
@@ -190,10 +190,19 @@ getCases().then((response) => {
             }
         }
     };
-    function getFatData(name) {
-        for (i in cnExpFat) {
-            if (name == cnExpFat[i]["state"]) {
-                return cnExpFat[i]["expNum"];
+    function getFatData(name, model) {
+        if(model==="Chinese"){
+            for (i in cnExpFat) {
+                if (name == cnExpFat[i]["state"]) {
+                    return cnExpFat[i]["expNum"];
+                }
+            }
+        }
+        if(model=="Italian"){
+            for (i in itExpFat) {
+                if (name == itExpFat[i]["state"]) {
+                    return itExpFat[i]["expNum"];
+                }
             }
         }
     };
@@ -276,10 +285,21 @@ getCases().then((response) => {
         });
         // checks if currently statelevel, if not does for state
         if (!stateLevel) {
+            var model;
+            if(document.getElementById("Chinese").checked){
+                model = "Chinese";
+                myChart.update();
+            }
+            if(document.getElementById("Italian").checked){
+                model = "Italian";
+                myChart.update();
+            }
+            // console.log(model);
             var stateData = getStateData(layer.feature.properties.NAME_1);
             var stateName = stateData["state"];
-            var fatalityData = getFatData(stateName);
-
+            var fatalityData = getFatData(stateName, model);
+            
+            
             myChart.data.datasets[0]["data"] = fatalityData;
             myChart.update();
             document.getElementById("stat").innerHTML =
@@ -366,7 +386,7 @@ getCases().then((response) => {
             ],
             datasets: [
                 {
-                    label: "Worse Case Fatality",
+                    label: "Worst Case Fatality",
                     backgroundColor: 'red',
                     data: cnExpFat[1].expNum,
                     borderWidth: 1,
