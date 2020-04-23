@@ -2,16 +2,32 @@
 //
 const api_url = "https://api.rootnet.in/covid19-in/stats/latest";
 var coviddata = [];
-
 const dis_url = "https://api.covid19india.org/state_district_wise.json";
 var covidDisData = {};
+var indData = {};
+
+var ChartFont = 15;
 
 async function getCases() {
-    //STATE DATA FETCH
+    // india total api ..............................
     const response = await fetch(api_url);
     const data = await response.json();
+    // console.log(data.data.summary);
+    indData['conf'] = data.data.summary.total;
+    indData['death'] = data.data.summary.deaths;
+    indData['rec'] = data.data.summary.discharged;
+    document.getElementById("stat").innerHTML =
+        "<h3> India Total" +
+        "</h3><br>Confirmed: " +
+        indData['conf'] +
+        "<br>Deaths: " +
+        indData['death'] +
+        "<br>Recovered: " +
+        indData['rec'] +
+        "<br>";
+    //STATE DATA FETCH
     // console.log(data.data.regional);
-    for (ind = 0; ind <= 32; ind++) {
+    for (ind = 0; ind < 32; ind++) {
         var details = {};
         details["state"] = data.data.regional[ind].loc;
         details["conf"] =
@@ -126,7 +142,7 @@ getCases().then((response) => {
     });
     // map.dragging.disable();
     // Set the position and zoom level of the map
-    map.setView([23, 92], 4.5);
+    map.setView([23, 92], 4);
 
     /*	Variety of base layers */
     var osm_mapnik = L.tileLayer("", {
@@ -174,10 +190,19 @@ getCases().then((response) => {
             }
         }
     };
-    function getFatData(name) {
-        for (i in cnExpFat) {
-            if (name == cnExpFat[i]["state"]) {
-                return cnExpFat[i]["expNum"];
+    function getFatData(name, model) {
+        if(model==="Chinese"){
+            for (i in cnExpFat) {
+                if (name == cnExpFat[i]["state"]) {
+                    return cnExpFat[i]["expNum"];
+                }
+            }
+        }
+        if(model=="Italian"){
+            for (i in itExpFat) {
+                if (name == itExpFat[i]["state"]) {
+                    return itExpFat[i]["expNum"];
+                }
             }
         }
     };
@@ -226,19 +251,28 @@ getCases().then((response) => {
         if (stateLevel === true && zoom < 6) {
             map.addLayer(geojson);
             map.removeLayer(stateLevelJson);
-            map.setView([23, 92], 4.5);
+            map.setView([23, 92], 4);
             stateLevel = false;
             resetHighlight(map);
         }
     };
     setInterval(checkState, 1000);
     function resetHighlight(e) {
-        if(!stateLevel){
+        if (!stateLevel) {
             geojson.resetStyle(e.target);
         }
-        if(stateLevel){
+        if (stateLevel) {
             stateLevelJson.resetStyle(e.target);
         }
+        document.getElementById("stat").innerHTML =
+            "<h3> India Total" +
+            "</h3><br>Confirmed: " +
+            indData['conf'] +
+            "<br>Deaths: " +
+            indData['death'] +
+            "<br>Recovered: " +
+            indData['rec'] +
+            "<br>";
     };
     function highlightFeature(e) {
         var layer = e.target;
@@ -251,10 +285,21 @@ getCases().then((response) => {
         });
         // checks if currently statelevel, if not does for state
         if (!stateLevel) {
+            var model;
+            if(document.getElementById("Chinese").checked){
+                model = "Chinese";
+                myChart.update();
+            }
+            if(document.getElementById("Italian").checked){
+                model = "Italian";
+                myChart.update();
+            }
+            // console.log(model);
             var stateData = getStateData(layer.feature.properties.NAME_1);
             var stateName = stateData["state"];
-            var fatalityData = getFatData(stateName);
-
+            var fatalityData = getFatData(stateName, model);
+            
+            
             myChart.data.datasets[0]["data"] = fatalityData;
             myChart.update();
             document.getElementById("stat").innerHTML =
@@ -277,12 +322,11 @@ getCases().then((response) => {
             var distName = e.target.feature.properties.district;
             var distD = getDistData(distName);
             // console.log(distD['conf']);
-            var d
-
+            var d;
             if (distD && typeof distD.conf === 'number') {
-                d = distD.conf
+                d = distD.conf;
             } else {
-                d = 0
+                d = 0;
             }
             document.getElementById("stat").innerHTML =
                 "<h3>" +
@@ -290,7 +334,6 @@ getCases().then((response) => {
                 "</h3><br>Confirmed: " + d;
         }
     };
-
     // for individual states and districts
     function styleState(feature) {
         return {
@@ -303,20 +346,20 @@ getCases().then((response) => {
         };
     };
     function getColorDist(dname) {
-        for(i in covidDisData){
-            for(j in covidDisData[i]){
+        for (i in covidDisData) {
+            for (j in covidDisData[i]) {
                 // console.log(covidDisData[i][j]['districtName']);
-                if(dname == covidDisData[i][j]['districtName']){
+                if (dname == covidDisData[i][j]['districtName']) {
                     return covidDisData[i][j]['color'];
                 }
             }
         }
     };
     function getDistData(dname) {
-        for(i in covidDisData){
-            for(j in covidDisData[i]){
+        for (i in covidDisData) {
+            for (j in covidDisData[i]) {
                 // console.log(covidDisData[i][j]);
-                if(dname == covidDisData[i][j]['districtName']){
+                if (dname == covidDisData[i][j]['districtName']) {
                     return covidDisData[i][j];
                 }
             }
@@ -324,14 +367,7 @@ getCases().then((response) => {
     };
     // for individual states and districts
 
-
-
-
-
-
-
-
-
+// Chart below
     var ctx = document.getElementById("myChart").getContext("2d");
     var myChart = new Chart(ctx, {
         type: "bar",
@@ -350,18 +386,8 @@ getCases().then((response) => {
             ],
             datasets: [
                 {
-                    label: "Expected Number of Deaths at 100% infection",
-                    backgroundColor: [
-                        "red",
-                        "red",
-                        "red",
-                        "red",
-                        "red",
-                        "red",
-                        "red",
-                        "red",
-                        "red",
-                    ],
+                    label: "Worst Case Fatality",
+                    backgroundColor: 'red',
                     data: cnExpFat[1].expNum,
                     borderWidth: 1,
                 },
@@ -371,7 +397,7 @@ getCases().then((response) => {
             legend: {
                 display: true,
                 labels: {
-                    fontSize: 25,
+                    fontSize: ChartFont,
                 },
             },
             responsive: true,
@@ -380,14 +406,14 @@ getCases().then((response) => {
                 xAxes: [
                     {
                         ticks: {
-                            fontSize: 25,
+                            fontSize: ChartFont,
                         },
                     },
                 ],
                 yAxes: [
                     {
                         ticks: {
-                            fontSize: 25,
+                            fontSize: ChartFont,
                             beginAtZero: true,
                         },
                     },
