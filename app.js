@@ -205,6 +205,41 @@ getCases().then((response) => {
                 }
             }
         }
+        if(model=="Netherlands"){
+            for (i in nlExpFat) {
+                if (name == nlExpFat[i]["state"]) {
+                    return nlExpFat[i]["expNum"];
+                }
+            }
+        }
+        if(model=="Switzerland"){
+            for (i in szExpFat) {
+                if (name == szExpFat[i]["state"]) {
+                    return szExpFat[i]["expNum"];
+                }
+            }
+        }
+        if(model=="Spain"){
+            for (i in spExpFat) {
+                if (name == spExpFat[i]["state"]) {
+                    return spExpFat[i]["expNum"];
+                }
+            }
+        }
+        if(model=="South Korea"){
+            for (i in skExpFat) {
+                if (name == skExpFat[i]["state"]) {
+                    return skExpFat[i]["expNum"];
+                }
+            }
+        }
+        if(model=="Denmark"){
+            for (i in dnExpFat) {
+                if (name == dnExpFat[i]["state"]) {
+                    return dnExpFat[i]["expNum"];
+                }
+            }
+        }
     };
     function onEachFeature(feature, layer) {
         layer.on({
@@ -286,14 +321,8 @@ getCases().then((response) => {
         // checks if currently statelevel, if not does for state
         if (!stateLevel) {
             var model;
-            if(document.getElementById("Chinese").checked){
-                model = "Chinese";
-                myChart.update();
-            }
-            if(document.getElementById("Italian").checked){
-                model = "Italian";
-                myChart.update();
-            }
+            var e = document.getElementById("models");
+            model = e.options[e.selectedIndex].value;
             // console.log(model);
             var stateData = getStateData(layer.feature.properties.NAME_1);
             var stateName = stateData["state"];

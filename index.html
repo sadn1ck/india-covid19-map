@@ -15,6 +15,11 @@
     <!--     <script type="text/javascript" src="data/coviddata.json"></script> -->
     <script type="text/javascript" src="data/cnExpFat.json"></script>
     <script type="text/javascript" src="data/itExpFat.json"></script>
+    <script type="text/javascript" src="data/dnExpFat.json"></script>
+    <script type="text/javascript" src="data/skExpFat.json"></script>
+    <script type="text/javascript" src="data/spExpFat.json"></script>
+    <script type="text/javascript" src="data/szExpFat.json"></script>
+    <script type="text/javascript" src="data/nlExpFat.json"></script>
     <div class="container">
         <div id="map"></div>
         <div id="stat">
@@ -22,10 +27,15 @@
         </div>
         <div class="modelchoice">
             <p><h3>Please select model:</h3></p>
-            <input type="radio" id="Chinese" name="gender" value="cn">
-            <label for="Chinese">Chinese</label><br>
-            <input type="radio" id="Italian" name="gender" value="it">
-            <label for="Italian">Italian</label><br>
+            <select id="models" name="models">
+                <option value="Chinese">Chinese</option>
+                <option value="Italian">Italian</option>
+                <option value="Denmark">Denmark</option>
+                <option value="Switzerland">Switzerland</option>
+                <option value="Netherlands">Netherlands</option>
+                <option value="Spain">Spain</option>
+                <option value="South Korea">South Korea</option>
+            </select>
         </div>
         <div id="chart"><canvas id="myChart"></canvas></div>
     </div>
