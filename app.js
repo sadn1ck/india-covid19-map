@@ -36,21 +36,21 @@ async function getCases() {
         details["cured"] = data.data.regional[ind].discharged;
         details["deaths"] = data.data.regional[ind].deaths;
 
-        if (details["conf"] < 50) {
+        if (details["conf"] < 100) {
             details["color"] = "#fff7ec";
-        } else if (details["conf"] >= 50 && details["conf"] < 100) {
-            details["color"] = "#fee8c8";
         } else if (details["conf"] >= 100 && details["conf"] < 250) {
-            details["color"] = "#fdd49e";
+            details["color"] = "#fee8c8";
         } else if (details["conf"] >= 250 && details["conf"] < 500) {
+            details["color"] = "#fdd49e";
+        } else if (details["conf"] >= 500 && details["conf"] < 1000) {
             details["color"] = "#fdbb84";
-        } else if (details["conf"] >= 500 && details["conf"] < 750) {
+        } else if (details["conf"] >= 1000 && details["conf"] < 2000) {
             details["color"] = "#fc8d59";
-        } else if (details["conf"] >= 750 && details["conf"] < 1000) {
+        } else if (details["conf"] >= 2000 && details["conf"] < 3000) {
             details["color"] = "#ef6548";
-        } else if (details["conf"] >= 1000 && details["conf"] < 1500) {
+        } else if (details["conf"] >= 3000 && details["conf"] < 4000) {
             details["color"] = "#d7301f";
-        } else if (details["conf"] >= 1500 && details["conf"] < 2000) {
+        } else if (details["conf"] >= 4000 && details["conf"] < 5000) {
             details["color"] = "#b30000";
         } else {
             details["color"] = "#8a0000";
@@ -327,8 +327,6 @@ getCases().then((response) => {
             var stateData = getStateData(layer.feature.properties.NAME_1);
             var stateName = stateData["state"];
             var fatalityData = getFatData(stateName, model);
-            
-            
             myChart.data.datasets[0]["data"] = fatalityData;
             myChart.update();
             document.getElementById("stat").innerHTML =
