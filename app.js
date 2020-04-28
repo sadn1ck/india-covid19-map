@@ -191,49 +191,49 @@ getCases().then((response) => {
         }
     };
     function getFatData(name, model) {
-        if(model==="Chinese"){
+        if (model === "Chinese") {
             for (i in cnExpFat) {
                 if (name == cnExpFat[i]["state"]) {
                     return cnExpFat[i]["expNum"];
                 }
             }
         }
-        if(model=="Italian"){
+        if (model == "Italian") {
             for (i in itExpFat) {
                 if (name == itExpFat[i]["state"]) {
                     return itExpFat[i]["expNum"];
                 }
             }
         }
-        if(model=="Netherlands"){
+        if (model == "Netherlands") {
             for (i in nlExpFat) {
                 if (name == nlExpFat[i]["state"]) {
                     return nlExpFat[i]["expNum"];
                 }
             }
         }
-        if(model=="Switzerland"){
+        if (model == "Switzerland") {
             for (i in szExpFat) {
                 if (name == szExpFat[i]["state"]) {
                     return szExpFat[i]["expNum"];
                 }
             }
         }
-        if(model=="Spain"){
+        if (model == "Spain") {
             for (i in spExpFat) {
                 if (name == spExpFat[i]["state"]) {
                     return spExpFat[i]["expNum"];
                 }
             }
         }
-        if(model=="South Korea"){
+        if (model == "South Korea") {
             for (i in skExpFat) {
                 if (name == skExpFat[i]["state"]) {
                     return skExpFat[i]["expNum"];
                 }
             }
         }
-        if(model=="Denmark"){
+        if (model == "Denmark") {
             for (i in dnExpFat) {
                 if (name == dnExpFat[i]["state"]) {
                     return dnExpFat[i]["expNum"];
@@ -241,13 +241,16 @@ getCases().then((response) => {
             }
         }
     };
+
     function onEachFeature(feature, layer) {
         layer.on({
             mouseover: highlightFeature,
             mouseout: resetHighlight,
             click: zoomToFeature,
         });
+
     };
+
     function fetchJSON(url) {
         return fetch(url).then(function (response) {
             return response.json();
@@ -268,6 +271,8 @@ getCases().then((response) => {
         };
     };
     var stateLevel = false;
+    var STATENAME;
+
 
     async function zoomToFeature(e) {
         map.fitBounds(e.target.getBounds());
@@ -326,6 +331,7 @@ getCases().then((response) => {
             // console.log(model);
             var stateData = getStateData(layer.feature.properties.NAME_1);
             var stateName = stateData["state"];
+            STATENAME = stateName;
             var fatalityData = getFatData(stateName, model);
             myChart.data.datasets[0]["data"] = fatalityData;
             myChart.update();
@@ -394,7 +400,7 @@ getCases().then((response) => {
     };
     // for individual states and districts
 
-// Chart below
+    // Chart below
     var ctx = document.getElementById("myChart").getContext("2d");
     var myChart = new Chart(ctx, {
         type: "bar",
@@ -448,4 +454,23 @@ getCases().then((response) => {
             },
         },
     });
+
+
+
+    document.getElementById("models").onchange = function () { changeModel() };
+
+    function changeModel() {
+        console.log('change');
+        var model;
+        var modelEle = document.getElementById("models");
+        model = modelEle.options[modelEle.selectedIndex].value;
+        var fatalityData = getFatData(STATENAME, model);
+        myChart.data.datasets[0]["data"] = fatalityData;
+        myChart.update();
+    }
+
+
 });
+
+
+
