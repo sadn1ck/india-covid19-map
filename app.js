@@ -38,19 +38,19 @@ async function getCases() {
 
         if (details["conf"] < 100) {
             details["color"] = "#fff7ec";
-        } else if (details["conf"] >= 100 && details["conf"] < 250) {
+        } else if (details["conf"] >= 1000 && details["conf"] < 2500) {
             details["color"] = "#fee8c8";
-        } else if (details["conf"] >= 250 && details["conf"] < 500) {
+        } else if (details["conf"] >= 2500 && details["conf"] < 5000) {
             details["color"] = "#fdd49e";
-        } else if (details["conf"] >= 500 && details["conf"] < 1000) {
+        } else if (details["conf"] >= 5000 && details["conf"] < 10000) {
             details["color"] = "#fdbb84";
-        } else if (details["conf"] >= 1000 && details["conf"] < 2000) {
+        } else if (details["conf"] >= 10000 && details["conf"] < 20000) {
             details["color"] = "#fc8d59";
-        } else if (details["conf"] >= 2000 && details["conf"] < 3000) {
+        } else if (details["conf"] >= 20000 && details["conf"] < 30000) {
             details["color"] = "#ef6548";
-        } else if (details["conf"] >= 3000 && details["conf"] < 4000) {
+        } else if (details["conf"] >= 30000 && details["conf"] < 40000) {
             details["color"] = "#d7301f";
-        } else if (details["conf"] >= 4000 && details["conf"] < 5000) {
+        } else if (details["conf"] >= 40000 && details["conf"] < 50000) {
             details["color"] = "#b30000";
         } else {
             details["color"] = "#8a0000";
@@ -73,17 +73,17 @@ async function getCases() {
             disDetails["conf"] = Number(disData[stateNames[ind]]["districtData"][disNames[i]]["confirmed"]);
             if (disDetails["conf"] < 50) {
                 disDetails["color"] = "#fff7ec";
-            } else if (disDetails["conf"] >= 50 && disDetails["conf"] < 100) {
+            } else if (disDetails["conf"] >= 500 && disDetails["conf"] < 1000) {
                 disDetails["color"] = "#fee8c8";
-            } else if (disDetails["conf"] >= 100 && disDetails["conf"] < 150) {
+            } else if (disDetails["conf"] >= 1000 && disDetails["conf"] < 1500) {
                 disDetails["color"] = "#fdd49e";
-            } else if (disDetails["conf"] >= 150 && disDetails["conf"] < 200) {
+            } else if (disDetails["conf"] >= 1500 && disDetails["conf"] < 2000) {
                 disDetails["color"] = "#fdbb84";
-            } else if (disDetails["conf"] >= 200 && disDetails["conf"] < 500) {
+            } else if (disDetails["conf"] >= 2000 && disDetails["conf"] < 5000) {
                 disDetails["color"] = "#fc8d59";
-            } else if (disDetails["conf"] >= 500 && disDetails["conf"] < 750) {
+            } else if (disDetails["conf"] >= 5000 && disDetails["conf"] < 7500) {
                 disDetails["color"] = "#ef6548";
-            } else if (disDetails["conf"] >= 750 && disDetails["conf"] < 1000) {
+            } else if (disDetails["conf"] >= 7500 && disDetails["conf"] < 10000) {
                 disDetails["color"] = "#d7301f";
             } else if (
                 disDetails["conf"] >= 1000 &&
@@ -151,8 +151,8 @@ getCases().then((response) => {
         attribution:
             '&copy; OSM Mapnik <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
-    /* 
-    INDIA ENTIRE COUNTRY & STATES LOADING AND STUFF 
+    /*
+    INDIA ENTIRE COUNTRY & STATES LOADING AND STUFF
     */
     geojson = L.geoJson(india, {
         style: style,
@@ -180,8 +180,8 @@ getCases().then((response) => {
     // Add geoJSON to the map
 
     L.control.layers(baseLayers, overLayers).addTo(map);
-    /* 
-    INDIA ENTIRE COUNTRY & STATES LOADING AND STUFF 
+    /*
+    INDIA ENTIRE COUNTRY & STATES LOADING AND STUFF
     */
     function getColor(name) {
         for (i in coviddata) {
